@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <stdlib.h>
 #define N 8
 #define noir 1
 #define blanc 2
