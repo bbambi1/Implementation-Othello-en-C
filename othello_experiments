@@ -81,7 +81,7 @@ int coup_valide(int grille[N][N], int ligne, int colonne, int joueur){
 	if (case_valide(ligne, j) && grille[ligne][j] == joueur){
 		return 1;
 	}
-	// Horizontal gauche 
+	// Horizontal droite 
 	j = colonne + 1
 	if (grille[ligne][j] == joueur){
 		return 0;
@@ -92,5 +92,54 @@ int coup_valide(int grille[N][N], int ligne, int colonne, int joueur){
 	if (case_valide(ligne, j) && grille[ligne][j] == joueur){
 		return 1;
 	}
+	// Diagonale haut gauche 
+	i = ligne - 1
+	j = colonne - 1
+	if (grille[i][j] == joueur){
+		return 0;
+	}
+	while(case_valide(i, j) && grille[i][j] == joueur_adverse){
+		j++;
+	}
+	if (case_valide(i, j) && grille[i][j] == joueur){
+		return 1;
+	}
+	// Diagonale haut droite 
+	i = ligne - 1
+	j = colonne + 1
+	if (grille[i][j] == joueur){
+		return 0;
+	}
+	while(case_valide(i, j) && grille[i][j] == joueur_adverse){
+		j++;
+	}
+	if (case_valide(i, j) && grille[i][j] == joueur){
+		return 1;
+	}
+	// Diagonale bas gauche 
+	i = ligne + 1
+	j = colonne - 1
+	if (grille[i][j] == joueur){
+		return 0;
+	}
+	while(case_valide(i, j) && grille[i][j] == joueur_adverse){
+		j++;
+	}
+	if (case_valide(i, j) && grille[i][j] == joueur){
+		return 1;
+	}
+	// Diagonale bas droite 
+	i = ligne + 1
+	j = colonne + 1
+	if (grille[i][j] == joueur){
+		return 0;
+	}
+	while(case_valide(i, j) && grille[i][j] == joueur_adverse){
+		j++;
+	}
+	if (case_valide(i, j) && grille[i][j] == joueur){
+		return 1;
+	}
+	return 0;
 }
 
