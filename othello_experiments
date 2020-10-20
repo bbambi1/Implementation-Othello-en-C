@@ -100,7 +100,8 @@ int coup_valide(int grille[N][N], int ligne, int colonne, int joueur){
         return 0;
     }
     while(case_valide(i, j) && grille[i][j] == joueur_adverse){
-        j++;
+        j--;
+	i--;
     }
     if (case_valide(i, j) && grille[i][j] == joueur){
         return 1;
@@ -113,6 +114,7 @@ int coup_valide(int grille[N][N], int ligne, int colonne, int joueur){
     }
     while(case_valide(i, j) && grille[i][j] == joueur_adverse){
         j++;
+	i--;
     }
     if (case_valide(i, j) && grille[i][j] == joueur){
         return 1;
@@ -124,7 +126,8 @@ int coup_valide(int grille[N][N], int ligne, int colonne, int joueur){
         return 0;
     }
     while(case_valide(i, j) && grille[i][j] == joueur_adverse){
-        j++;
+        j--;
+	i++;
     }
     if (case_valide(i, j) && grille[i][j] == joueur){
         return 1;
@@ -137,6 +140,7 @@ int coup_valide(int grille[N][N], int ligne, int colonne, int joueur){
     }
     while(case_valide(i, j) && grille[i][j] == joueur_adverse){
         j++;
+	i++;
     }
     if (case_valide(i, j) && grille[i][j] == joueur){
         return 1;
