@@ -19,11 +19,13 @@ int peut_jouer(int grille[N][N],int joueur);
 
 int joueur_suivant(int joueur);
 
-void entrer_coup(int grille[N][N],int ligne,int colonne,int joueur);
+void entrer_coup(int grille[N][N], int* ligne, int* colonne, int joueur);
 
 int partie_finie(int grille[N][N]);
 
 int gagnant(int grille[N][N]);
 
 void jouer(int grille[N][N],int ligne,int colonne,int joueur);
+
+
 #endif // OTHELLO_H
