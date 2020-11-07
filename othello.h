@@ -5,18 +5,21 @@
 #define blanc 2
 
 
-void initialsation_grille(int grille[N][N]) ;
+void initialsation_grille(int grille[N][N]);
 
-void affiche_grille(int grille[N][N]) ;
+void affiche_grille(int grille[N][N]);
 
-int case_valide(int ligne, int colonne) ;
+int case_valide(int ligne, int colonne);
 
-int case_vide(int grille[N][N], int ligne, int colonne) ;
+int case_vide(int grille[N][N], int ligne, int colonne);
 
-int coup_valide(int grille[N][N], int ligne, int colonne, int joueur) ;
+int coup_valide(int grille[N][N], int ligne, int colonne, int joueur);
 
 int peut_jouer(int grille[N][N],int joueur);
 
-int joueur_suivant(int joueur){return joueur%2+1;}
+int joueur_suivant(int joueur){return (joueur % 2) + 1;}
+
+void entrer_coup(int grille[N][N], int joueur);
+
 
 #endif // OTHELLO_H

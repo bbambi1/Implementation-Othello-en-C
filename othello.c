@@ -154,13 +154,33 @@ int coup_valide(int grille[N][N], int ligne, int colonne, int joueur){
     }
     return 0;
 }
-int peut_jouer(int grille[N][N],int joueur){
-    for (int i=0;i<N;i++){
-        for (int j=0;j<N;j++){
-            if (coup_valide(grille,i,j,joueur)){
+
+
+int peut_jouer(int grille[N][N], int joueur){
+    for (int i = 0; i < N; i++){
+        for (int j = 0; j < N; j++){
+            if (coup_valide(grille, i, j, joueur)){
                 return 1;
             }
         }
     }
     return 0;
+}
+
+
+void entrer_coup(int grille[N][N], int joueur){
+    int ligne;
+    int colonne;
+    printf ("\nC'est au tour du joueur %d de jouer\n", joueur);
+    printf("\nEntrez la ligne correspondant au coup que vous souhaitez jouer :");
+    scanf("\n%d", &ligne);
+    printf("\nEntrez la colonne correspondant au coup que vous souhaitez jouer :");
+    scanf("\n%d", &colonne);
+    while (!coup_valide(grille, ligne, colonne, joueur)){
+        printf ("\nCe coup n'est pas valide\nChoisissez une autre case\n");
+        printf("\nEntrez la ligne correspondant au coup que vous souhaitez jouer :");
+        scanf("\n%d", &ligne);
+        printf("\nEntrez la colonne correspondant au coup que vous souhaitez jouer :");
+        scanf("\n%d", &colonne);
+    }
 }
