@@ -25,6 +25,8 @@ int partie_finie(int grille[N][N]);
 
 int gagnant(int grille[N][N]);
 
+void score(int grille[N][N]);
+
 void jouer(int grille[N][N],int ligne,int colonne,int joueur);
 
 

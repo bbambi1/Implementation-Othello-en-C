@@ -230,6 +230,23 @@ int gagnant(int grille[N][N]){
 }
 
 
+void score(int grille[N][N]){
+    int nb_noir = 0;
+    int nb_blanc = 0;
+    for(int i = 0; i < N; i++){
+        for(int j = 0; j < N; j++){
+            if (grille[i][j] == 1){
+                nb_noir++;
+            }
+            else if (grille[i][j]==2){
+                nb_blanc++;
+            }
+        }
+    }
+    printf("\nJoueur 1 : %d points\nJoueur 2 : %d points", nb_noir, nb_blanc);
+}
+
+
 void jouer(int grille[N][N],int ligne,int colonne,int joueur){
     int i, j;
     int joueur_adverse;

@@ -17,6 +17,7 @@ int main()
     	entrer_coup(grille, &ligne, &colonne, joueur);
     	jouer(grille, ligne, colonne, joueur);
     	affiche_grille(grille);
+    	score(grille);
     	if (peut_jouer(grille, joueur_suivant(joueur))){
     		joueur = joueur_suivant(joueur);
     	}
