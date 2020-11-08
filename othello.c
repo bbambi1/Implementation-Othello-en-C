@@ -21,12 +21,15 @@ void initialsation_grille(int grille[N][N]){
 // Affiche la grille passee en argument
 
 void affiche_grille(int grille[N][N]){
+    printf("\n");
     for(int ligne = 0; ligne < N; ligne++){
+        printf("%d.  ", ligne);
         for(int colonne = 0; colonne < N; colonne++){
             printf("%d  ", grille[ligne][colonne]);
         }
         printf("\n");
     }
+    printf("\n    0. 1. 2. 3. 4. 5. 6. 7.\n");
 }
 
 
@@ -56,6 +59,7 @@ int coup_valide(int grille[N][N], int ligne, int colonne, int joueur){
     if (!case_valide(ligne, colonne) || !case_vide(grille, ligne, colonne)){
         return 0;
     }
+
     // Vertical haut
     i = ligne - 1;
     if (grille[i][colonne] == joueur){
@@ -67,6 +71,7 @@ int coup_valide(int grille[N][N], int ligne, int colonne, int joueur){
     if (case_valide(i, colonne) && grille[i][colonne] == joueur){
         return 1;
     }
+
     // Vertical bas
     i = ligne + 1;
     if (grille[i][colonne] == joueur){
@@ -78,6 +83,7 @@ int coup_valide(int grille[N][N], int ligne, int colonne, int joueur){
     if (case_valide(i, colonne) && grille[i][colonne] == joueur){
         return 1;
     }
+
     // Horizontal gauche
     j = colonne - 1;
     if (grille[ligne][j] == joueur){
@@ -89,6 +95,7 @@ int coup_valide(int grille[N][N], int ligne, int colonne, int joueur){
     if (case_valide(ligne, j) && grille[ligne][j] == joueur){
         return 1;
     }
+
     // Horizontal droite
     j = colonne + 1;
     if (grille[ligne][j] == joueur){
@@ -100,6 +107,7 @@ int coup_valide(int grille[N][N], int ligne, int colonne, int joueur){
     if (case_valide(ligne, j) && grille[ligne][j] == joueur){
         return 1;
     }
+
     // Diagonale haut gauche
     i = ligne - 1;
     j = colonne - 1;
@@ -113,6 +121,7 @@ int coup_valide(int grille[N][N], int ligne, int colonne, int joueur){
     if (case_valide(i, j) && grille[i][j] == joueur){
         return 1;
     }
+
     // Diagonale haut droite
     i = ligne - 1;
     j = colonne + 1;
@@ -126,6 +135,7 @@ int coup_valide(int grille[N][N], int ligne, int colonne, int joueur){
     if (case_valide(i, j) && grille[i][j] == joueur){
         return 1;
     }
+
     // Diagonale bas gauche
     i = ligne + 1;
     j = colonne - 1;
@@ -139,6 +149,7 @@ int coup_valide(int grille[N][N], int ligne, int colonne, int joueur){
     if (case_valide(i, j) && grille[i][j] == joueur){
         return 1;
     }
+
     // Diagonale bas droite
     i = ligne + 1;
     j = colonne + 1;
@@ -173,7 +184,7 @@ int joueur_suivant(int joueur){
 }
 
 
-void entrer_coup(int grille[N][N], int* ligne, int* colonne, int joueur){
+void entrer_coup(int grille[N][N], int *ligne, int *colonne, int joueur){
     printf ("\nC'est au tour du joueur %d de jouer\n", joueur);
     printf("\nEntrez la ligne correspondant au coup que vous souhaitez jouer :\n");
     scanf("\n%d", ligne);
@@ -235,7 +246,7 @@ void jouer(int grille[N][N],int ligne,int colonne,int joueur){
     while (case_valide(i, colonne) && grille[i][colonne] == joueur_adverse){
         i--;
     }
-    if (case_valide(i, colonne)){
+    if (case_valide(i, colonne) && grille[i][colonne] == joueur){
         for (int k = i+1; k < ligne; k++){
             grille[k][colonne] = joueur;
         }
@@ -246,8 +257,8 @@ void jouer(int grille[N][N],int ligne,int colonne,int joueur){
     while (case_valide(i, colonne) && grille[i][colonne] == joueur_adverse){
         i++;
     }
-    if (case_valide(i, colonne)){
-        for (int k = i-1; k < ligne; k--){
+    if (case_valide(i, colonne) && grille[i][colonne] == joueur){
+        for (int k = i-1; k > ligne; k--){
             grille[k][colonne] = joueur;
         }
     }
@@ -257,8 +268,8 @@ void jouer(int grille[N][N],int ligne,int colonne,int joueur){
     while (case_valide(ligne, j) && grille[ligne][j] == joueur_adverse){
         j++;
     }
-    if (case_valide(ligne, j)){
-        for (int k = j-1; k < colonne; k--){
+    if (case_valide(ligne, j) && grille[ligne][j] == joueur){
+        for (int k = j-1; k > colonne; k--){
             grille[ligne][k]=joueur;
         }
     }
@@ -268,7 +279,7 @@ void jouer(int grille[N][N],int ligne,int colonne,int joueur){
     while (case_valide(ligne, j) && grille[ligne][j] == joueur_adverse){
         j--;
     }
-    if (case_valide(ligne, j)){
+    if (case_valide(ligne, j) && grille[ligne][j] == joueur){
         for (int k = j+1; k < colonne; k++){
             grille[ligne][k] = joueur;
         }
