@@ -207,6 +207,7 @@ int partie_finie(int grille[N][N]){
     return 1;
 }
 
+
 void gagnant(int grille[N][N]){
     int nb_noir = 0;
     int nb_blanc = 0;
@@ -221,12 +222,14 @@ void gagnant(int grille[N][N]){
         }
     }
     if (nb_noir > nb_blanc){
-        printf("Le joueur 1 a gangné !");
+        printf("Le joueur 1 gagne!\n");
     }
     else if (nb_noir < nb_blanc){
-        printf("Le joueur 2 a gangné !");
+        printf("Le joueur 2 gagne !\n");
     }
-    printf("Match nul !");
+    else{
+        printf("C'est un atch nul !\n");
+    }
 }
 
 
@@ -374,15 +377,93 @@ void jouer(int grille[N][N],int ligne,int colonne,int joueur){
 
 void partie_2_joueurs(){
     int joueur = 1;
-        int ligne, colonne;
-        // Initialisation de la grille
-        int grille[N][N];
-        initialsation_grille(grille);
-        affiche_grille(grille);
+    int ligne, colonne;
+    // Initialisation de la grille
+    int grille[N][N];
+    initialsation_grille(grille);
+    affiche_grille(grille);
 
-        // Partie test
-        while(!partie_finie(grille)){
+    // Partie test
+    while(!partie_finie(grille)){
+        entrer_coup(grille, &ligne, &colonne, joueur);
+        jouer(grille, ligne, colonne, joueur);
+        affiche_grille(grille);
+        score(grille);
+        if (peut_jouer(grille, joueur_suivant(joueur))){
+            joueur = joueur_suivant(joueur);
+        }
+        else {
+            printf("\nLe joueur %d passe son tour\n", joueur_suivant(joueur));
+        }
+    }
+    gagnant(grille);
+
+}
+
+
+void partie_vs_computer(){
+    int joueur = 1;
+    int ligne, colonne;
+    // Initialisation de la grille
+    int grille[N][N];
+    initialsation_grille(grille);
+    affiche_grille(grille);
+
+    // Partie test
+    while(!partie_finie(grille)){
+        if (joueur==1){
             entrer_coup(grille, &ligne, &colonne, joueur);
+            jouer(grille, ligne, colonne, joueur);
+            affiche_grille(grille);
+            score(grille);
+            if (peut_jouer(grille, joueur_suivant(joueur))){
+                joueur = joueur_suivant(joueur);
+            }
+            else{
+                printf("\nLe joueur %d passe son tour\n", joueur_suivant(joueur));
+            }
+
+        }
+        else{
+            ligne = rand()%8;
+            colonne=rand()%8;
+            while(!coup_valide(grille,ligne,colonne,joueur)){
+                ligne = rand()%8;
+                colonne=rand()%8;
+            }
+            jouer(grille, ligne, colonne, joueur);
+            affiche_grille(grille);
+            score(grille);
+            if (peut_jouer(grille, joueur_suivant(joueur))){
+                joueur = joueur_suivant(joueur);
+            }
+            else{
+                printf("\nLe joueur %d passe son tour\n", joueur_suivant(joueur));
+            }
+
+        }       
+
+    }
+    gagnant(grille);
+}
+
+void computer_vs_computer(){
+    int joueur = 1;
+    int ligne, colonne;
+    // Initialisation de la grille
+    int grille[N][N];
+    initialsation_grille(grille);
+    affiche_grille(grille);
+
+    // Partie test
+    while(!partie_finie(grille)){
+        if (joueur==1){
+            ligne = rand()%8;
+            colonne=rand()%8;
+            while(!coup_valide(grille,ligne,colonne,joueur)){
+                ligne = rand()%8;
+                colonne=rand()%8;
+            }
             jouer(grille, ligne, colonne, joueur);
             affiche_grille(grille);
             score(grille);
@@ -392,103 +473,27 @@ void partie_2_joueurs(){
             else {
                 printf("\nLe joueur %d passe son tour\n", joueur_suivant(joueur));
             }
+
         }
-        gagnant(grille);
-}
-void partie_vs_computer(){
-    int joueur = 1;
-        int ligne, colonne;
-        // Initialisation de la grille
-        int grille[N][N];
-        initialsation_grille(grille);
-        affiche_grille(grille);
-
-        // Partie test
-        while(!partie_finie(grille)){
-            if (joueur==1){
-                entrer_coup(grille, &ligne, &colonne, joueur);
-                jouer(grille, ligne, colonne, joueur);
-                affiche_grille(grille);
-                score(grille);
-                if (peut_jouer(grille, joueur_suivant(joueur))){
-                    joueur = joueur_suivant(joueur);
-                }
-                else {
-                    printf("\nLe joueur %d passe son tour\n", joueur_suivant(joueur));
-                }
-
+        else {
+            ligne = rand()%8;
+            colonne=rand()%8;
+            while(!coup_valide(grille,ligne,colonne,joueur)){
+                ligne = rand()%8;
+                colonne=rand()%8;
+            }
+            jouer(grille, ligne, colonne, joueur);
+            affiche_grille(grille);
+            score(grille);
+            if (peut_jouer(grille, joueur_suivant(joueur))){
+                joueur = joueur_suivant(joueur);
             }
             else {
-                ligne = rand()%8;
-                colonne=rand()%8;
-                while(!coup_valide(grille,ligne,colonne,joueur)){
-                    ligne = rand()%8;
-                    colonne=rand()%8;
-                }
-                jouer(grille, ligne, colonne, joueur);
-                affiche_grille(grille);
-                score(grille);
-                if (peut_jouer(grille, joueur_suivant(joueur))){
-                    joueur = joueur_suivant(joueur);
-                }
-                else {
-                    printf("\nLe joueur %d passe son tour\n", joueur_suivant(joueur));
-                }
-
-}
-
-}
-        gagnant(grille);
-}
-
-void computer_vs_computer(){
-    int joueur = 1;
-        int ligne, colonne;
-        // Initialisation de la grille
-        int grille[N][N];
-        initialsation_grille(grille);
-        affiche_grille(grille);
-
-        // Partie test
-        while(!partie_finie(grille)){
-            if (joueur==1){
-                ligne = rand()%8;
-                colonne=rand()%8;
-                while(!coup_valide(grille,ligne,colonne,joueur)){
-                    ligne = rand()%8;
-                    colonne=rand()%8;
-                }
-                jouer(grille, ligne, colonne, joueur);
-                affiche_grille(grille);
-                score(grille);
-                if (peut_jouer(grille, joueur_suivant(joueur))){
-                    joueur = joueur_suivant(joueur);
-                }
-                else {
-                    printf("\nLe joueur %d passe son tour\n", joueur_suivant(joueur));
-                }
-
+                printf("\nLe joueur %d passe son tour\n", joueur_suivant(joueur));
             }
-            else {
-                ligne = rand()%8;
-                colonne=rand()%8;
-                while(!coup_valide(grille,ligne,colonne,joueur)){
-                    ligne = rand()%8;
-                    colonne=rand()%8;
-                }
-                jouer(grille, ligne, colonne, joueur);
-                affiche_grille(grille);
-                score(grille);
-                if (peut_jouer(grille, joueur_suivant(joueur))){
-                    joueur = joueur_suivant(joueur);
-                }
-                else {
-                    printf("\nLe joueur %d passe son tour\n", joueur_suivant(joueur));
-                }
 
-}
+        }
 
+    }
+    gagnant(grille);
 }
-        gagnant(grille);
-}
-

@@ -33,7 +33,7 @@ void partie_2_joueurs();
 
 void partie_vs_computer();
 
-
 void computer_vs_computer();
+
 
 #endif // OTHELLO_H
