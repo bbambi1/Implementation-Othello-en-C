@@ -6,7 +6,6 @@
 
 int main()
 {
-    //srand(time(NULL));
     //partie_2_joueurs();
 
     //partie_vs_computer();

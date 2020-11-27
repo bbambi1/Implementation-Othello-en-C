@@ -4,9 +4,9 @@
 #include "othello.h"
 
 
-// Fonction "random"
+// Fonction "random" (genere des nombres aleatoires)
 
-int my_rand (int n)
+int my_rand(int n)
 {
    static int first = 0;
 
@@ -417,6 +417,7 @@ void jouer(int grille[N][N],int ligne,int colonne,int joueur){
 void partie_2_joueurs(){
     int joueur = 1;
     int ligne, colonne;
+
     // Initialisation de la grille
     int grille[N][N];
     initialsation_grille(grille);
@@ -443,6 +444,7 @@ void partie_2_joueurs(){
 void partie_vs_computer(){
     int joueur = 1;
     int ligne, colonne;
+
     // Initialisation de la grille
     int grille[N][N];
     initialsation_grille(grille);
@@ -487,10 +489,12 @@ void partie_vs_computer(){
 void computer_vs_computer(){
     int joueur = 1;
     int ligne, colonne;
+
     // Initialisation de la grille
     int grille[N][N];
     initialsation_grille(grille);
     affiche_grille(grille);
+    
     // Partie machine vs machine
     while(!partie_finie(grille)){
         if (joueur == 1){

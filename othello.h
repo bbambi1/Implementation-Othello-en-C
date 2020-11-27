@@ -5,7 +5,7 @@
 #define blanc 2
 
 
-int my_rand (int n);
+int my_rand(int n);
 
 void initialsation_grille(int grille[N][N]);
 
