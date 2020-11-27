@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 #include "othello.h"
 
 
@@ -383,7 +384,7 @@ void partie_2_joueurs(){
     initialsation_grille(grille);
     affiche_grille(grille);
 
-    // Partie test
+    // Partie joueur vs joueur
     while(!partie_finie(grille)){
         entrer_coup(grille, &ligne, &colonne, joueur);
         jouer(grille, ligne, colonne, joueur);
@@ -409,9 +410,9 @@ void partie_vs_computer(){
     initialsation_grille(grille);
     affiche_grille(grille);
 
-    // Partie test
+    // Partie joueur vs machine
     while(!partie_finie(grille)){
-        if (joueur==1){
+        if (joueur == 1){
             entrer_coup(grille, &ligne, &colonne, joueur);
             jouer(grille, ligne, colonne, joueur);
             affiche_grille(grille);
@@ -422,14 +423,15 @@ void partie_vs_computer(){
             else{
                 printf("\nLe joueur %d passe son tour\n", joueur_suivant(joueur));
             }
-
         }
         else{
+            //srand(time(NULL));
             ligne = rand()%8;
-            colonne=rand()%8;
+            colonne = rand()%8;
             while(!coup_valide(grille,ligne,colonne,joueur)){
+                //srand(time(NULL));
                 ligne = rand()%8;
-                colonne=rand()%8;
+                colonne = rand()%8;
             }
             jouer(grille, ligne, colonne, joueur);
             affiche_grille(grille);
@@ -440,14 +442,14 @@ void partie_vs_computer(){
             else{
                 printf("\nLe joueur %d passe son tour\n", joueur_suivant(joueur));
             }
-
         }       
-
     }
     gagnant(grille);
 }
 
+
 void computer_vs_computer(){
+    //srand(time(NULL));
     int joueur = 1;
     int ligne, colonne;
     // Initialisation de la grille
@@ -455,14 +457,18 @@ void computer_vs_computer(){
     initialsation_grille(grille);
     affiche_grille(grille);
 
-    // Partie test
+    // Partie machine vs machine
+    //srand(time(NULL));
     while(!partie_finie(grille)){
-        if (joueur==1){
+        //srand(time(NULL));
+        if (joueur == 1){
+            //srand(time(NULL));
             ligne = rand()%8;
-            colonne=rand()%8;
+            colonne = rand()%8;
             while(!coup_valide(grille,ligne,colonne,joueur)){
+                //srand(time(NULL));
                 ligne = rand()%8;
-                colonne=rand()%8;
+                colonne = rand()%8;
             }
             jouer(grille, ligne, colonne, joueur);
             affiche_grille(grille);
@@ -473,14 +479,15 @@ void computer_vs_computer(){
             else {
                 printf("\nLe joueur %d passe son tour\n", joueur_suivant(joueur));
             }
-
         }
         else {
+            //srand(time(NULL));
             ligne = rand()%8;
-            colonne=rand()%8;
+            colonne = rand()%8;
             while(!coup_valide(grille,ligne,colonne,joueur)){
+                //srand(time(NULL));
                 ligne = rand()%8;
-                colonne=rand()%8;
+                colonne = rand()%8;
             }
             jouer(grille, ligne, colonne, joueur);
             affiche_grille(grille);
@@ -491,9 +498,7 @@ void computer_vs_computer(){
             else {
                 printf("\nLe joueur %d passe son tour\n", joueur_suivant(joueur));
             }
-
         }
-
     }
     gagnant(grille);
 }
