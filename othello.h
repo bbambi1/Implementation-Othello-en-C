@@ -13,6 +13,22 @@ int case_valide(int ligne, int colonne);
 
 int case_vide(int grille[N][N], int ligne, int colonne);
 
+int verticale_haut(int grille[N][N], int ligne, int colonne, int joueur);
+
+int verticale_bas(int grille[N][N], int ligne, int colonne, int joueur);
+
+int horizontale_gauche(int grille[N][N], int ligne, int colonne, int joueur);
+
+int horizontale_droite(int grille[N][N], int ligne, int colonne, int joueur);
+
+int diagonale_haut_droite(int grille[N][N], int ligne, int colonne, int joueur);
+
+int diagonale_haut_gauche(int grille[N][N], int ligne, int colonne, int joueur);
+
+int diagonale_bas_droite(int grille[N][N], int ligne, int colonne, int joueur);
+
+int diagonale_bas_gauche(int grille[N][N], int ligne, int colonne, int joueur);
+
 int coup_valide(int grille[N][N], int ligne, int colonne, int joueur);
 
 int peut_jouer(int grille[N][N],int joueur);
@@ -35,5 +51,6 @@ void partie_vs_computer();
 
 void computer_vs_computer();
 
+int my_rand (int n);
 
 #endif // OTHELLO_H
