@@ -4,6 +4,21 @@
 #include "othello.h"
 
 
+// Fonction "random"
+
+int my_rand (int n)
+{
+   static int first = 0;
+
+   if (first == 0)
+   {
+      srand (time (NULL));
+      first = 1;
+   }
+   return (rand ()%n);
+}
+
+
 // Initialise la grille en placant les 4 premiers pions
 
 void initialsation_grille(int grille[N][N]){
@@ -46,6 +61,7 @@ int case_vide(int grille[N][N], int ligne, int colonne){
     return grille[ligne][colonne] == 0;
 }
 
+
 int verticale_haut(int grille[N][N], int ligne, int colonne, int joueur){
     int joueur_adverse=joueur_suivant(joueur);
     int i = ligne - 1;
@@ -59,8 +75,9 @@ int verticale_haut(int grille[N][N], int ligne, int colonne, int joueur){
         return 1;
     }
     return 0;
-
 }
+
+
 int verticale_bas(int grille[N][N], int ligne, int colonne, int joueur){
     int joueur_adverse=joueur_suivant(joueur);
     int i = ligne + 1;
@@ -74,8 +91,9 @@ int verticale_bas(int grille[N][N], int ligne, int colonne, int joueur){
         return 1;
     }
     return 0;
-
 }
+
+
 int horizontale_gauche(int grille[N][N], int ligne, int colonne, int joueur){
     int joueur_adverse=joueur_suivant(joueur);
     int j = colonne - 1;
@@ -89,8 +107,9 @@ int horizontale_gauche(int grille[N][N], int ligne, int colonne, int joueur){
         return 1;
     }
     return 0;
-
 }
+
+
 int horizontale_droite(int grille[N][N], int ligne, int colonne, int joueur){
     int joueur_adverse=joueur_suivant(joueur);
     int j = colonne + 1;
@@ -104,8 +123,9 @@ int horizontale_droite(int grille[N][N], int ligne, int colonne, int joueur){
         return 1;
     }
     return 0;
-
 }
+
+
 int diagonale_haut_droite(int grille[N][N], int ligne, int colonne, int joueur){
     int joueur_adverse=joueur_suivant(joueur);
     int i = ligne - 1;
@@ -121,8 +141,9 @@ int diagonale_haut_droite(int grille[N][N], int ligne, int colonne, int joueur){
         return 1;
     }
     return 0;
-
 }
+
+
 int diagonale_haut_gauche(int grille[N][N], int ligne, int colonne, int joueur){
     int joueur_adverse=joueur_suivant(joueur);
     int i = ligne - 1;
@@ -138,8 +159,9 @@ int diagonale_haut_gauche(int grille[N][N], int ligne, int colonne, int joueur){
         return 1;
     }
     return 0;
-
 }
+
+
 int diagonale_bas_droite(int grille[N][N], int ligne, int colonne, int joueur){
     int joueur_adverse=joueur_suivant(joueur);
     int i = ligne + 1;
@@ -156,6 +178,8 @@ int diagonale_bas_droite(int grille[N][N], int ligne, int colonne, int joueur){
     }
     return 0;
 }
+
+
 int diagonale_bas_gauche(int grille[N][N], int ligne, int colonne, int joueur){
     int joueur_adverse=joueur_suivant(joueur);
     int i = ligne + 1;
@@ -174,13 +198,11 @@ int diagonale_bas_gauche(int grille[N][N], int ligne, int colonne, int joueur){
 }
 
 
-
 int coup_valide(int grille[N][N], int ligne, int colonne, int joueur){
     if (!case_valide(ligne, colonne) || !case_vide(grille, ligne, colonne)){
         return 0;
     }
     return verticale_bas(grille,ligne,colonne,joueur)||verticale_haut(grille,ligne,colonne,joueur)||horizontale_droite(grille,ligne,colonne,joueur)||horizontale_gauche(grille,ligne,colonne,joueur)||diagonale_bas_droite(grille,ligne,colonne,joueur)||diagonale_bas_gauche(grille,ligne,colonne,joueur)||diagonale_haut_droite(grille,ligne,colonne,joueur)||diagonale_haut_gauche(grille,ligne,colonne,joueur);
-
 }
 
 
@@ -239,13 +261,13 @@ void gagnant(int grille[N][N]){
         }
     }
     if (nb_noir > nb_blanc){
-        printf("Le joueur 1 gagne!\n");
+        printf("\nLe joueur 1 gagne!\n");
     }
     else if (nb_noir < nb_blanc){
-        printf("Le joueur 2 gagne !\n");
+        printf("\nLe joueur 2 gagne !\n");
     }
     else{
-        printf("C'est un atch nul !\n");
+        printf("\nC'est un match nul !\n");
     }
 }
 
@@ -429,8 +451,6 @@ void partie_vs_computer(){
     // Partie joueur vs machine
     while(!partie_finie(grille)){
         if (joueur == 1){
-
-
             entrer_coup(grille, &ligne, &colonne, joueur);
             jouer(grille, ligne, colonne, joueur);
             affiche_grille(grille);
@@ -443,13 +463,9 @@ void partie_vs_computer(){
             }
         }
         else{
-
-
-            //srand(time(NULL));
             ligne = rand()%8;
             colonne = rand()%8;
             while(!coup_valide(grille,ligne,colonne,joueur)){
-                //srand(time(NULL));
                 ligne = rand()%8;
                 colonne = rand()%8;
             }
@@ -469,28 +485,20 @@ void partie_vs_computer(){
 
 
 void computer_vs_computer(){
-    //srand(time(NULL));
     int joueur = 1;
     int ligne, colonne;
     // Initialisation de la grille
     int grille[N][N];
     initialsation_grille(grille);
     affiche_grille(grille);
-
     // Partie machine vs machine
-    //srand(time(NULL));
     while(!partie_finie(grille)){
-        //srand(time(NULL));
         if (joueur == 1){
-            //srand(time(NULL));
-            printf("\ncondition1\n");
             ligne = my_rand(8);
             colonne = my_rand(8);
             while(!coup_valide(grille,ligne,colonne,joueur)){
-                //srand(time(NULL));
                 ligne = my_rand(8);
                 colonne =my_rand(8);
-                printf("\n1  ligne=%d col=%d \n",ligne,colonne);
             }
             jouer(grille, ligne, colonne, joueur);
             affiche_grille(grille);
@@ -503,15 +511,11 @@ void computer_vs_computer(){
             }
         }
         else {
-            printf("\ncondition2\n");
-            //srand(time(NULL));
             ligne = my_rand(8);
             colonne = my_rand(8);
             while(!coup_valide(grille,ligne,colonne,joueur)){
-                //srand(time(NULL));
                 ligne = my_rand(8);
                 colonne = my_rand(8);
-                printf("\n2 ligne=%d col=%d \n",ligne,colonne);
             }
             jouer(grille, ligne, colonne, joueur);
             affiche_grille(grille);
@@ -525,15 +529,4 @@ void computer_vs_computer(){
         }
     }
     gagnant(grille);
-}
-int my_rand (int n)
-{
-   static int first = 0;
-
-   if (first == 0)
-   {
-      srand (time (NULL));
-      first = 1;
-   }
-   return (rand ()%n);
 }

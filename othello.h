@@ -5,6 +5,8 @@
 #define blanc 2
 
 
+int my_rand (int n);
+
 void initialsation_grille(int grille[N][N]);
 
 void affiche_grille(int grille[N][N]);
@@ -51,6 +53,5 @@ void partie_vs_computer();
 
 void computer_vs_computer();
 
-int my_rand (int n);
 
 #endif // OTHELLO_H
