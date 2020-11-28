@@ -57,10 +57,13 @@ int case_valide(int ligne, int colonne){
 
 
 // Renvoie True si la case jouee est vide
+
 int case_vide(int grille[N][N], int ligne, int colonne){
     return grille[ligne][colonne] == 0;
 }
 
+
+// Verifie si le coup (i, j) est valide pour la direction "verticale haut"
 
 int verticale_haut(int grille[N][N], int ligne, int colonne, int joueur){
     int joueur_adverse=joueur_suivant(joueur);
@@ -78,6 +81,8 @@ int verticale_haut(int grille[N][N], int ligne, int colonne, int joueur){
 }
 
 
+// Verifie si le coup (i, j) est valide pour la direction "verticale bas"
+
 int verticale_bas(int grille[N][N], int ligne, int colonne, int joueur){
     int joueur_adverse=joueur_suivant(joueur);
     int i = ligne + 1;
@@ -93,6 +98,8 @@ int verticale_bas(int grille[N][N], int ligne, int colonne, int joueur){
     return 0;
 }
 
+
+// Verifie si le coup (i, j) est valide pour la direction "horizontale gauche"
 
 int horizontale_gauche(int grille[N][N], int ligne, int colonne, int joueur){
     int joueur_adverse=joueur_suivant(joueur);
@@ -110,6 +117,8 @@ int horizontale_gauche(int grille[N][N], int ligne, int colonne, int joueur){
 }
 
 
+// Verifie si le coup (i, j) est valide pour la direction "horizontale droite"
+
 int horizontale_droite(int grille[N][N], int ligne, int colonne, int joueur){
     int joueur_adverse=joueur_suivant(joueur);
     int j = colonne + 1;
@@ -125,6 +134,8 @@ int horizontale_droite(int grille[N][N], int ligne, int colonne, int joueur){
     return 0;
 }
 
+
+// Verifie si le coup (i, j) est valide pour la direction "diagonale haut droite"
 
 int diagonale_haut_droite(int grille[N][N], int ligne, int colonne, int joueur){
     int joueur_adverse=joueur_suivant(joueur);
@@ -144,6 +155,8 @@ int diagonale_haut_droite(int grille[N][N], int ligne, int colonne, int joueur){
 }
 
 
+// Verifie si le coup (i, j) est valide pour la direction "diagonale haut gauche"
+
 int diagonale_haut_gauche(int grille[N][N], int ligne, int colonne, int joueur){
     int joueur_adverse=joueur_suivant(joueur);
     int i = ligne - 1;
@@ -161,6 +174,8 @@ int diagonale_haut_gauche(int grille[N][N], int ligne, int colonne, int joueur){
     return 0;
 }
 
+
+// Verifie si le coup (i, j) est valide pour la direction "diagonale bas droite"
 
 int diagonale_bas_droite(int grille[N][N], int ligne, int colonne, int joueur){
     int joueur_adverse=joueur_suivant(joueur);
@@ -180,6 +195,8 @@ int diagonale_bas_droite(int grille[N][N], int ligne, int colonne, int joueur){
 }
 
 
+// Verifie si le coup (i, j) est valide pour la direction "diagonale bas gauche"
+
 int diagonale_bas_gauche(int grille[N][N], int ligne, int colonne, int joueur){
     int joueur_adverse=joueur_suivant(joueur);
     int i = ligne + 1;
@@ -198,6 +215,8 @@ int diagonale_bas_gauche(int grille[N][N], int ligne, int colonne, int joueur){
 }
 
 
+// Verifie que le coup (i, j) est valide
+
 int coup_valide(int grille[N][N], int ligne, int colonne, int joueur){
     if (!case_valide(ligne, colonne) || !case_vide(grille, ligne, colonne)){
         return 0;
@@ -205,6 +224,8 @@ int coup_valide(int grille[N][N], int ligne, int colonne, int joueur){
     return verticale_bas(grille,ligne,colonne,joueur)||verticale_haut(grille,ligne,colonne,joueur)||horizontale_droite(grille,ligne,colonne,joueur)||horizontale_gauche(grille,ligne,colonne,joueur)||diagonale_bas_droite(grille,ligne,colonne,joueur)||diagonale_bas_gauche(grille,ligne,colonne,joueur)||diagonale_haut_droite(grille,ligne,colonne,joueur)||diagonale_haut_gauche(grille,ligne,colonne,joueur);
 }
 
+
+// Etant donné une configuration de la grille, verifie si le joueur (actuel) peut jouer
 
 int peut_jouer(int grille[N][N], int joueur){
     for (int i = 0; i < N; i++){
@@ -218,10 +239,14 @@ int peut_jouer(int grille[N][N], int joueur){
 }
 
 
+// Determine le joueur suivant (etant donné le joueur actuel)
+
 int joueur_suivant(int joueur){
     return (joueur % 2) + 1;
 }
 
+
+// Utilie dans les parties avec un joeur non machine (permet de rentrer un coup valide)
 
 void entrer_coup(int grille[N][N], int *ligne, int *colonne, int joueur){
     printf ("\nC'est au tour du joueur %d de jouer\n", joueur);
@@ -239,6 +264,8 @@ void entrer_coup(int grille[N][N], int *ligne, int *colonne, int joueur){
 }
 
 
+// Verifie si la partie est terminee
+
 int partie_finie(int grille[N][N]){
     if ((peut_jouer(grille,noir) || peut_jouer(grille,blanc))){
         return 0;
@@ -246,6 +273,8 @@ int partie_finie(int grille[N][N]){
     return 1;
 }
 
+
+// Determine le gagnant d'une partie terminee (etant donné une grille finale)
 
 void gagnant(int grille[N][N]){
     int nb_noir = 0;
@@ -272,6 +301,8 @@ void gagnant(int grille[N][N]){
 }
 
 
+// Etant donné une grille, calcule le score des deux joueurs
+
 void score(int grille[N][N]){
     int nb_noir = 0;
     int nb_blanc = 0;
@@ -288,6 +319,8 @@ void score(int grille[N][N]){
     printf("\nJoueur 1 : %d points\nJoueur 2 : %d points", nb_noir, nb_blanc);
 }
 
+
+// Permet de jouer un coup (placer un pion sur la grille et retourner les pions adverses encadrés)
 
 void jouer(int grille[N][N],int ligne,int colonne,int joueur){
     int i, j;
@@ -414,6 +447,8 @@ void jouer(int grille[N][N],int ligne,int colonne,int joueur){
 }
 
 
+// Simule une partie entre deux joueurs (non machine)
+
 void partie_2_joueurs(){
     int joueur = 1;
     int ligne, colonne;
@@ -440,6 +475,8 @@ void partie_2_joueurs(){
 
 }
 
+
+//Simule une partie entre un joueur et l'ordinateur
 
 void partie_vs_computer(){
     int joueur = 1;
@@ -485,6 +522,8 @@ void partie_vs_computer(){
     gagnant(grille);
 }
 
+
+// Simule une partie ordinateur contre ordinateur
 
 void computer_vs_computer(){
     int joueur = 1;
