@@ -4,7 +4,7 @@
 #include "othello.h"
 
 
-// Fonction "random" (genere des nombres aleatoires)
+// Fonction "random" (genere des nombres aleatoires entre 0 et n-1)
 
 int my_rand(int n)
 {
@@ -12,6 +12,7 @@ int my_rand(int n)
 
    if (first == 0)
    {
+    // permet d'initialiser le générateur de nombres aléatoires (la fonction rand)
       srand (time (NULL));
       first = 1;
    }
@@ -215,7 +216,7 @@ int diagonale_bas_gauche(int grille[N][N], int ligne, int colonne, int joueur){
 }
 
 
-// Verifie que le coup (i, j) est valide
+// Verifie que le coup (i, j) est valide (peut être joué)
 
 int coup_valide(int grille[N][N], int ligne, int colonne, int joueur){
     if (!case_valide(ligne, colonne) || !case_vide(grille, ligne, colonne)){
@@ -246,7 +247,7 @@ int joueur_suivant(int joueur){
 }
 
 
-// Utilie dans les parties avec un joeur non machine (permet de rentrer un coup valide)
+// Utile dans les parties avec un joeur non machine (permet de rentrer un coup valide)
 
 void entrer_coup(int grille[N][N], int *ligne, int *colonne, int joueur){
     printf ("\nC'est au tour du joueur %d de jouer\n", joueur);
