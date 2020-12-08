@@ -49,6 +49,8 @@ void jouer(int grille[N][N],int ligne,int colonne,int joueur);
 
 void partie_2_joueurs();
 
+void strategie_naive(int grille[N][N],int * ligne,int * colonne,int joueur);
+
 void partie_vs_computer();
 
 void computer_vs_computer();
