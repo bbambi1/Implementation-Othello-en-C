@@ -301,6 +301,30 @@ void gagnant(int grille[N][N]){
     }
 }
 
+int gagnant_stat(int grille[N][N]){
+    int nb_noir = 0;
+    int nb_blanc = 0;
+    for(int i = 0; i < N; i++){
+        for(int j = 0; j < N; j++){
+            if (grille[i][j] == 1){
+                nb_noir++;
+            }
+            else if (grille[i][j]==2){
+                nb_blanc++;
+            }
+        }
+    }
+    if (nb_noir > nb_blanc){
+        return 1;
+    }
+    else if (nb_noir < nb_blanc){
+        return 2;
+    }
+    else{
+        return 0;
+    }
+}
+
 
 // Etant donné une grille, calcule le score des deux joueurs
 
@@ -503,12 +527,7 @@ void partie_vs_computer(){
             }
         }
         else{
-            ligne = rand()%8;
-            colonne = rand()%8;
-            while(!coup_valide(grille,ligne,colonne,joueur)){
-                ligne = rand()%8;
-                colonne = rand()%8;
-            }
+            strategie_naive(grille,&ligne,&colonne,joueur);
             jouer(grille, ligne, colonne, joueur);
             affiche_grille(grille);
             score(grille);
@@ -533,6 +552,53 @@ void strategie_naive(int grille[N][N],int * ligne,int * colonne,int joueur){
     }
 }
 
+void strategie_minimax1(int grille[N][N],int * ligne,int * colonne,int joueur){
+    int l1[]={500, -150, 30, 10, 10, 30, -150, 500};
+    int l2[]={-150, -250, 0, 0, 0, 0, -250, -150};
+    int l3[]={30, 0, 1, 2, 2, 1, 0, 30};
+    int l4[]={10, 0, 2, 16, 16, 2, 0, 10};
+    int l5[]={10, 0, 2, 16, 16, 2, 0, 10};
+    int l6[]={30, 0, 1, 2, 2, 1, 0, 30};
+    int l7[]={-150, -250, 0, 0, 0, 0, -250, -150};
+    int l8[]={500, -150, 30, 10, 10, 30, -150, 500};
+    int matrice_heuristique[8][8] ;
+    for(int i=0;i<8;i++){
+        matrice_heuristique[0][i]=l1[i];
+    }
+    for(int i=0;i<8;i++){
+        matrice_heuristique[1][i]=l2[i];
+    }
+    for(int i=0;i<8;i++){
+        matrice_heuristique[2][i]=l3[i];
+    }
+    for(int i=0;i<8;i++){
+        matrice_heuristique[3][i]=l4[i];
+    }
+    for(int i=0;i<8;i++){
+        matrice_heuristique[4][i]=l5[i];
+    }
+    for(int i=0;i<8;i++){
+        matrice_heuristique[5][i]=l6[i];
+    }
+    for(int i=0;i<8;i++){
+        matrice_heuristique[6][i]=l7[i];
+    }
+    for(int i=0;i<8;i++){
+        matrice_heuristique[7][i]=l8[i];
+    }
+    int score_meilleur_coup=-500;
+    for(int i=0;i<N;i++){
+        for(int j=0;j<N;j++){
+            if ((coup_valide(grille,i,j,joueur)) && (matrice_heuristique[i][j]>score_meilleur_coup)){
+                score_meilleur_coup=matrice_heuristique[i][j];
+                *ligne=i;
+                *colonne=j;
+            }
+        }
+    }
+
+}
+
 // Simule une partie ordinateur contre ordinateur
 
 void computer_vs_computer(){
@@ -543,11 +609,11 @@ void computer_vs_computer(){
     int grille[N][N];
     initialsation_grille(grille);
     affiche_grille(grille);
-    
+
     // Partie machine vs machine
     while(!partie_finie(grille)){
         if (joueur == 1){
-            strategie_naive(grille,&ligne,&colonne,joueur);
+            strategie_minimax1(grille,&ligne,&colonne,joueur);
             jouer(grille, ligne, colonne, joueur);
             affiche_grille(grille);
             score(grille);
@@ -559,7 +625,7 @@ void computer_vs_computer(){
             }
         }
         else {
-            strategie_naive(grille,&ligne,&colonne,joueur);
+            strategie_minimax1(grille,&ligne,&colonne,joueur);
             jouer(grille, ligne, colonne, joueur);
             affiche_grille(grille);
             score(grille);
@@ -573,3 +639,35 @@ void computer_vs_computer(){
     }
     gagnant(grille);
 }
+
+int computer_vs_computer_stat(){
+    int joueur = 2;
+    int ligne, colonne;
+
+    // Initialisation de la grille
+    int grille[N][N];
+    initialsation_grille(grille);
+
+    // Partie machine vs machine
+    while(!partie_finie(grille)){
+        if (joueur == 1){
+            strategie_minimax1(grille,&ligne,&colonne,joueur);
+            jouer(grille, ligne, colonne, joueur);
+            if (peut_jouer(grille, joueur_suivant(joueur))){
+                joueur = joueur_suivant(joueur);
+                //score(grille);
+            }
+        }
+        else {
+            strategie_naive(grille,&ligne,&colonne,joueur);
+            jouer(grille, ligne, colonne, joueur);
+            if (peut_jouer(grille, joueur_suivant(joueur))){
+                joueur = joueur_suivant(joueur);
+                //score(grille);
+            }
+        }
+    }
+    return gagnant_stat(grille);
+}
+
+
