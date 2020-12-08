@@ -5,6 +5,8 @@
 #define blanc 2
 
 
+int my_rand (int n);
+
 void initialsation_grille(int grille[N][N]);
 
 void affiche_grille(int grille[N][N]);
@@ -51,14 +53,13 @@ void partie_2_joueurs();
 
 void partie_vs_computer();
 
-void strategie_naive(int grille[N][N],int * ligne,int * colonne,int joueur);
+void strategie_naive(int grille[N][N], int *ligne, int *colonne, int joueur);
 
-void strategie_minimax1(int grille[N][N],int * ligne,int * colonne,int joueur);
+void strategie_minimax1(int grille[N][N], int *ligne, int *colonne, int joueur);
 
 void computer_vs_computer();
 
 int computer_vs_computer_stat();
 
-int my_rand (int n);
 
 #endif // OTHELLO_H
