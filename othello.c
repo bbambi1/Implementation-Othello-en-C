@@ -523,6 +523,15 @@ void partie_vs_computer(){
     gagnant(grille);
 }
 
+void strategie_naive(int grille[N][N],int * ligne,int * colonne,int joueur){
+    *ligne = my_rand(8);
+    *colonne = my_rand(8);
+    while(!coup_valide(grille,*ligne,*colonne,joueur)){
+        //srand(time(NULL));
+        *ligne = my_rand(8);
+        *colonne =my_rand(8);
+    }
+}
 
 // Simule une partie ordinateur contre ordinateur
 
@@ -538,12 +547,7 @@ void computer_vs_computer(){
     // Partie machine vs machine
     while(!partie_finie(grille)){
         if (joueur == 1){
-            ligne = my_rand(8);
-            colonne = my_rand(8);
-            while(!coup_valide(grille,ligne,colonne,joueur)){
-                ligne = my_rand(8);
-                colonne =my_rand(8);
-            }
+            strategie_naive(grille,&ligne,&colonne,joueur);
             jouer(grille, ligne, colonne, joueur);
             affiche_grille(grille);
             score(grille);
@@ -555,12 +559,7 @@ void computer_vs_computer(){
             }
         }
         else {
-            ligne = my_rand(8);
-            colonne = my_rand(8);
-            while(!coup_valide(grille,ligne,colonne,joueur)){
-                ligne = my_rand(8);
-                colonne = my_rand(8);
-            }
+            strategie_naive(grille,&ligne,&colonne,joueur);
             jouer(grille, ligne, colonne, joueur);
             affiche_grille(grille);
             score(grille);
