@@ -2,6 +2,9 @@
 #include <stdlib.h>
 #include <time.h>
 #include "othello.h"
+#define MIN(a,b) (((a)<(b))?(a):(b))
+#define MAX(a,b) (((a)>(b))?(a):(b))
+
 
 
 // Fonction "random" (genere des nombres aleatoires entre 0 et n-1)
@@ -557,38 +560,13 @@ void strategie_naive(int grille[N][N], int *ligne, int *colonne, int joueur){
 
 //Strategie min-max" de profondeur 1 pour notre joueur "computer"
 void strategie_minimax1(int grille[N][N], int *ligne, int *colonne, int joueur){
-    int l1[] = {500, -150, 30, 10, 10, 30, -150, 500};
-    int l2[] = {-150, -250, 0, 0, 0, 0, -250, -150};
-    int l3[] = {30, 0, 1, 2, 2, 1, 0, 30};
-    int l4[] = {10, 0, 2, 16, 16, 2, 0, 10};
-    int l5[] = {10, 0, 2, 16, 16, 2, 0, 10};
-    int l6[] = {30, 0, 1, 2, 2, 1, 0, 30};
-    int l7[] = {-150, -250, 0, 0, 0, 0, -250, -150};
-    int l8[] = {500, -150, 30, 10, 10, 30, -150, 500};
+    int l[] = {500, -150, 30, 10, 10, 30, -150, 500,-150, -250, 0, 0, 0, 0, -250, -150,30, 0, 1, 2, 2, 1, 0, 30,10, 0, 2, 16, 16, 2, 0, 10,10, 0, 2, 16, 16, 2, 0, 10,30, 0, 1, 2, 2, 1, 0, 30,-150, -250, 0, 0, 0, 0, -250, -150,500, -150, 30, 10, 10, 30, -150, 500};
+
     int matrice_heuristique[8][8] ;
     for(int i = 0; i < 8; i++){
-        matrice_heuristique[0][i] = l1[i];
+        for(int j = 0; j < 8; j++){
+        matrice_heuristique[i][j] = l[i+8*j];
     }
-    for(int i = 0; i < 8; i++){
-        matrice_heuristique[1][i] = l2[i];
-    }
-    for(int i = 0; i < 8; i++){
-        matrice_heuristique[2][i] = l3[i];
-    }
-    for(int i = 0; i < 8; i++){
-        matrice_heuristique[3][i] = l4[i];
-    }
-    for(int i = 0; i < 8; i++){
-        matrice_heuristique[4][i] = l5[i];
-    }
-    for(int i = 0; i < 8; i++){
-        matrice_heuristique[5][i] = l6[i];
-    }
-    for(int i = 0; i < 8; i++){
-        matrice_heuristique[6][i] = l7[i];
-    }
-    for(int i = 0; i < 8; i++){
-        matrice_heuristique[7][i] = l8[i];
     }
     int score_meilleur_coup = -500;
     for(int i = 0; i < N; i++){
@@ -645,6 +623,7 @@ void computer_vs_computer(){
 }
 
 
+
 int computer_vs_computer_stat(){
     int joueur = 2;
     int ligne, colonne;
@@ -673,4 +652,51 @@ int computer_vs_computer_stat(){
         }
     }
     return gagnant_stat(grille);
+}
+
+
+int eval_minimax(int grille[N][N], int joueur){
+    int l[] = {500, -150, 30, 10, 10, 30, -150, 500,-150, -250, 0, 0, 0, 0, -250, -150,30, 0, 1, 2, 2, 1, 0, 30,10, 0, 2, 16, 16, 2, 0, 10,10, 0, 2, 16, 16, 2, 0, 10,30, 0, 1, 2, 2, 1, 0, 30,-150, -250, 0, 0, 0, 0, -250, -150,500, -150, 30, 10, 10, 30, -150, 500};
+
+    int matrice_heuristique[8][8] ;
+    for(int i = 0; i < N; i++){
+        for(int j = 0; j < N; j++){
+        matrice_heuristique[i][j] = l[i+8*j];
+    }
+    }
+    int eval=0;
+    for(int i = 0; i < N; i++){
+        for(int j = 0; j < N; j++){
+            if (grille[i][j]==joueur){
+                eval+=matrice_heuristique[i][j];
+            }
+         }
+    }
+
+    return eval;
+
+}
+
+
+
+int strategie_minimax(int grille[N][N], int *ligne, int *colonne, int profondeur, int joueur, int maximizing_player){
+    if ((profondeur==0) || !peut_jouer(grille,joueur)){
+        return eval_minimax(grille,maximizing_player);
+    }
+    if (maximizing_player){
+        int value=-100000000;
+        for(int i = 0; i < N; i++){
+            for(int j = 0; j < N; j++){
+                if (coup_valide(grille,i,j,joueur)){
+
+                    value=MAX(value,strategie_minimax(jouer(grille,i,j,joueur),i,j,profondeur-1,joueur_suivant(joueur),0));
+
+
+            }
+        }
+
+    }
+
+
+
 }

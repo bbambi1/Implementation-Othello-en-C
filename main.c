@@ -12,7 +12,7 @@ int main()
 
     //computer_vs_computer();
 
-	int joueur_1 = 0;
+    /*int joueur_1 = 0;
     int joueur_2 = 0;
     int nul=0;
     for (int i = 0; i< 1000; i++){
@@ -27,6 +27,7 @@ int main()
             joueur_2++;
         }
     }
-    printf("\nnul= %d   joueur_1= %d   joueur_2= %d\n",nul,joueur_1,joueur_2);
+    printf("\nnul= %d   joueur_1= %d   joueur_2= %d\n",nul,joueur_1,joueur_2);*/
+    eval_minimax();
     return 0;
 }

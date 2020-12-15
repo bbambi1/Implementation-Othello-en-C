@@ -61,5 +61,9 @@ void computer_vs_computer();
 
 int computer_vs_computer_stat();
 
+int eval_minimax(int grille[N][N], int joueur);
+
+int strategie_minimax(int grille[N][N], int *ligne, int *colonne, int profondeur, int joueur, int maximizing_player);
+
 
 #endif // OTHELLO_H
