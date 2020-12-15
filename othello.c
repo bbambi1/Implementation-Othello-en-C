@@ -304,6 +304,9 @@ void gagnant(int grille[N][N]){
     }
 }
 
+
+// utile pour effectuer des stats sur le nombre de victoires
+
 int gagnant_stat(int grille[N][N]){
     int nb_noir = 0;
     int nb_blanc = 0;
@@ -558,7 +561,8 @@ void strategie_naive(int grille[N][N], int *ligne, int *colonne, int joueur){
 }
 
 
-//Strategie min-max" de profondeur 1 pour notre joueur "computer"
+//Strategie "min-max" de profondeur 1 pour notre joueur "computer"
+
 void strategie_minimax1(int grille[N][N], int *ligne, int *colonne, int joueur){
     int l[] = {500, -150, 30, 10, 10, 30, -150, 500,-150, -250, 0, 0, 0, 0, -250, -150,30, 0, 1, 2, 2, 1, 0, 30,10, 0, 2, 16, 16, 2, 0, 10,10, 0, 2, 16, 16, 2, 0, 10,30, 0, 1, 2, 2, 1, 0, 30,-150, -250, 0, 0, 0, 0, -250, -150,500, -150, 30, 10, 10, 30, -150, 500};
 
@@ -623,6 +627,7 @@ void computer_vs_computer(){
 }
 
 
+// Permet d'etudier le nombre de victoires d'un joueur selon sa strategie
 
 int computer_vs_computer_stat(){
     int joueur = 2;
@@ -655,48 +660,77 @@ int computer_vs_computer_stat(){
 }
 
 
+// Fonction d'évaluation de l'algorithme Min-Max
+
 int eval_minimax(int grille[N][N], int joueur){
     int l[] = {500, -150, 30, 10, 10, 30, -150, 500,-150, -250, 0, 0, 0, 0, -250, -150,30, 0, 1, 2, 2, 1, 0, 30,10, 0, 2, 16, 16, 2, 0, 10,10, 0, 2, 16, 16, 2, 0, 10,30, 0, 1, 2, 2, 1, 0, 30,-150, -250, 0, 0, 0, 0, -250, -150,500, -150, 30, 10, 10, 30, -150, 500};
 
     int matrice_heuristique[8][8] ;
     for(int i = 0; i < N; i++){
         for(int j = 0; j < N; j++){
-        matrice_heuristique[i][j] = l[i+8*j];
-    }
+        matrice_heuristique[i][j] = l[i + N*j];
+        }
     }
     int eval=0;
     for(int i = 0; i < N; i++){
         for(int j = 0; j < N; j++){
             if (grille[i][j]==joueur){
-                eval+=matrice_heuristique[i][j];
+                eval += matrice_heuristique[i][j];
             }
-         }
+        }
     }
-
     return eval;
-
 }
 
 
+// Algorithme Min-Max
 
 int strategie_minimax(int grille[N][N], int *ligne, int *colonne, int profondeur, int joueur, int maximizing_player){
     if ((profondeur==0) || !peut_jouer(grille,joueur)){
         return eval_minimax(grille,maximizing_player);
     }
     if (maximizing_player){
-        int value=-100000000;
+        int value = -100000000;
         for(int i = 0; i < N; i++){
             for(int j = 0; j < N; j++){
-                if (coup_valide(grille,i,j,joueur)){
+                if (coup_valide(grille, i, j, joueur)){
 
-                    value=MAX(value,strategie_minimax(jouer(grille,i,j,joueur),i,j,profondeur-1,joueur_suivant(joueur),0));
+                    // on copie notre grille
+                    int copie_grille[N][N];
+                    for(int i = 0; i < N; i++){
+                        for(int j = 0; j < N; j++){
+                            copie_grille[i][j] = grille[i][j];
+                        }
+                    }
 
-
+                    jouer(copie_grille, i, j, joueur)
+                    next_player = joueur_suivant(joueur);
+                    value = MAX(value, strategie_minimax(, i, j, profondeur - 1, next_player, 0));
+                }
             }
         }
-
+        return value;
     }
+    else{
+        int value = 100000000;
+        for(int i = 0; i < N; i++){
+            for(int j = 0; j < N; j++){
+                if (coup_valide(grille, i, j, joueur)){
 
+                    // on copie notre grille
+                    int copie_grille[N][N];
+                    for(int i = 0; i < N; i++){
+                        for(int j = 0; j < N; j++){
+                            copie_grille[i][j] = grille[i][j];
+                        }
+                    }
 
-
+                    jouer(copie_grille, i, j, joueur)
+                    next_player = joueur_suivant(joueur);
+                    value = MIN(value, strategie_minimax(, i, j, profondeur - 1, next_player, 1));
+                }
+            }
+        }
+        return value;
+    }
 }
