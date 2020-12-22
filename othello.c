@@ -2,6 +2,9 @@
 #include <stdlib.h>
 #include <time.h>
 #include "othello.h"
+#define MIN(a,b) (((a)<(b))?(a):(b))
+#define MAX(a,b) (((a)>(b))?(a):(b))
+
 
 
 // Fonction "random" (genere des nombres aleatoires entre 0 et n-1)
@@ -302,6 +305,33 @@ void gagnant(int grille[N][N]){
 }
 
 
+// utile pour effectuer des stats sur le nombre de victoires
+
+int gagnant_stat(int grille[N][N]){
+    int nb_noir = 0;
+    int nb_blanc = 0;
+    for(int i = 0; i < N; i++){
+        for(int j = 0; j < N; j++){
+            if (grille[i][j] == 1){
+                nb_noir++;
+            }
+            else if (grille[i][j]==2){
+                nb_blanc++;
+            }
+        }
+    }
+    if (nb_noir > nb_blanc){
+        return 1;
+    }
+    else if (nb_noir < nb_blanc){
+        return 2;
+    }
+    else{
+        return 0;
+    }
+}
+
+
 // Etant donné une grille, calcule le score des deux joueurs
 
 void score(int grille[N][N]){
@@ -503,12 +533,7 @@ void partie_vs_computer(){
             }
         }
         else{
-            ligne = rand()%8;
-            colonne = rand()%8;
-            while(!coup_valide(grille,ligne,colonne,joueur)){
-                ligne = rand()%8;
-                colonne = rand()%8;
-            }
+            strategie_naive(grille, &ligne, &colonne, joueur);
             jouer(grille, ligne, colonne, joueur);
             affiche_grille(grille);
             score(grille);
@@ -524,6 +549,42 @@ void partie_vs_computer(){
 }
 
 
+//Strategie naive de notre joueur "computer"
+
+void strategie_naive(int grille[N][N], int *ligne, int *colonne, int joueur){
+    *ligne = my_rand(8);
+    *colonne = my_rand(8);
+    while(!coup_valide(grille, *ligne, *colonne, joueur)){
+        *ligne = my_rand(8);
+        *colonne = my_rand(8);
+    }
+}
+
+
+//Strategie "min-max" de profondeur 1 pour notre joueur "computer"
+
+void strategie_minimax1(int grille[N][N], int *ligne, int *colonne, int joueur){
+    int l[] = {500, -150, 30, 10, 10, 30, -150, 500,-150, -250, 0, 0, 0, 0, -250, -150,30, 0, 1, 2, 2, 1, 0, 30,10, 0, 2, 16, 16, 2, 0, 10,10, 0, 2, 16, 16, 2, 0, 10,30, 0, 1, 2, 2, 1, 0, 30,-150, -250, 0, 0, 0, 0, -250, -150,500, -150, 30, 10, 10, 30, -150, 500};
+
+    int matrice_heuristique[8][8] ;
+    for(int i = 0; i < 8; i++){
+        for(int j = 0; j < 8; j++){
+        matrice_heuristique[i][j] = l[i+8*j];
+    }
+    }
+    int score_meilleur_coup = -500;
+    for(int i = 0; i < N; i++){
+        for(int j=0;j<N;j++){
+            if ((coup_valide(grille, i, j, joueur)) && (matrice_heuristique[i][j] > score_meilleur_coup)){
+                score_meilleur_coup = matrice_heuristique[i][j];
+                *ligne = i;
+                *colonne = j;
+            }
+        }
+    }
+}
+
+
 // Simule une partie ordinateur contre ordinateur
 
 void computer_vs_computer(){
@@ -534,16 +595,11 @@ void computer_vs_computer(){
     int grille[N][N];
     initialsation_grille(grille);
     affiche_grille(grille);
-    
+
     // Partie machine vs machine
     while(!partie_finie(grille)){
         if (joueur == 1){
-            ligne = my_rand(8);
-            colonne = my_rand(8);
-            while(!coup_valide(grille,ligne,colonne,joueur)){
-                ligne = my_rand(8);
-                colonne =my_rand(8);
-            }
+            strategie_naive(grille, &ligne, &colonne, joueur);
             jouer(grille, ligne, colonne, joueur);
             affiche_grille(grille);
             score(grille);
@@ -555,12 +611,7 @@ void computer_vs_computer(){
             }
         }
         else {
-            ligne = my_rand(8);
-            colonne = my_rand(8);
-            while(!coup_valide(grille,ligne,colonne,joueur)){
-                ligne = my_rand(8);
-                colonne = my_rand(8);
-            }
+            strategie_minimax(grille, &ligne, &colonne, 2, joueur, 1);
             jouer(grille, ligne, colonne, joueur);
             affiche_grille(grille);
             score(grille);
@@ -574,3 +625,123 @@ void computer_vs_computer(){
     }
     gagnant(grille);
 }
+
+
+// Permet d'etudier le nombre de victoires d'un joueur selon sa strategie
+
+int computer_vs_computer_stat(){
+    int joueur = 2;
+    int ligne, colonne;
+
+    // Initialisation de la grille
+    int grille[N][N];
+    initialsation_grille(grille);
+
+    // Partie machine vs machine
+    while(!partie_finie(grille)){
+        if (joueur == 1){
+            strategie_minimax1(grille, &ligne, &colonne, joueur);
+            jouer(grille, ligne, colonne, joueur);
+            if (peut_jouer(grille, joueur_suivant(joueur))){
+                joueur = joueur_suivant(joueur);
+                //score(grille);
+            }
+        }
+        else {
+            strategie_minimax(grille, &ligne, &colonne, 2, joueur, 1);
+            jouer(grille, ligne, colonne, joueur);
+            if (peut_jouer(grille, joueur_suivant(joueur))){
+                joueur = joueur_suivant(joueur);
+                //score(grille);
+            }
+        }
+    }
+    return gagnant_stat(grille);
+}
+
+
+// Fonction d'évaluation de l'algorithme Min-Max
+
+int eval_minimax(int grille[N][N], int joueur){
+    int l[] = {500, -150, 30, 10, 10, 30, -150, 500,-150, -250, 0, 0, 0, 0, -250, -150,30, 0, 1, 2, 2, 1, 0, 30,10, 0, 2, 16, 16, 2, 0, 10,10, 0, 2, 16, 16, 2, 0, 10,30, 0, 1, 2, 2, 1, 0, 30,-150, -250, 0, 0, 0, 0, -250, -150,500, -150, 30, 10, 10, 30, -150, 500};
+
+    int matrice_heuristique[8][8] ;
+    for(int i = 0; i < N; i++){
+        for(int j = 0; j < N; j++){
+        matrice_heuristique[i][j] = l[i + N*j];
+        }
+    }
+    int eval=0;
+    for(int i = 0; i < N; i++){
+        for(int j = 0; j < N; j++){
+            if (grille[i][j]==joueur){
+                eval += matrice_heuristique[i][j];
+            }
+        }
+    }
+    return eval;
+}
+
+
+// Algorithme Min-Max
+
+int strategie_minimax(int grille[N][N], int *ligne, int *colonne, int profondeur, int joueur, int maximizing_player){
+    if ((profondeur == 0) || !peut_jouer(grille, joueur)){
+        return eval_minimax(grille, maximizing_player);
+    }
+    if (maximizing_player == 1){
+        int value = -100000000;
+        for(int i = 0; i < N; i++){
+            for(int j = 0; j < N; j++){
+                if (coup_valide(grille, i, j, joueur)){
+
+                    // on copie notre grille
+                    int copie_grille[N][N];
+                    for(int i = 0; i < N; i++){
+                        for(int j = 0; j < N; j++){
+                            copie_grille[i][j] = grille[i][j];
+                        }
+                    }
+
+                    jouer(copie_grille, i, j, joueur);
+                    int next_player = joueur_suivant(joueur);
+                    int value_bis = MAX(value, strategie_minimax(copie_grille, &i, &j, profondeur - 1, next_player, 0));
+                    if (value_bis > value){
+                        *ligne = i;
+                        *colonne = j;
+                    }
+                    value = value_bis;
+                }
+            }
+        }
+        return value;
+    }
+    else{
+        int value = 100000000;
+        for(int i = 0; i < N; i++){
+            for(int j = 0; j < N; j++){
+                if (coup_valide(grille, i, j, joueur)){
+
+                    // on copie notre grille
+                    int copie_grille[N][N];
+                    for(int i = 0; i < N; i++){
+                        for(int j = 0; j < N; j++){
+                            copie_grille[i][j] = grille[i][j];
+                        }
+                    }
+
+                    jouer(copie_grille, i, j, joueur);
+                    int next_player = joueur_suivant(joueur);
+                    int value_bis = MIN(value, strategie_minimax(copie_grille, &i, &j, profondeur - 1, next_player, 1));
+                    if (value_bis < value){
+                        *ligne = i;
+                        *colonne = j;
+                    }
+                    value = value_bis;
+                }
+            }
+        }
+        return value;
+    }
+}
+
