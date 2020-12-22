@@ -3,7 +3,7 @@
 #define N 8
 #define noir 1
 #define blanc 2
-#define depth 2
+
 
 
 int my_rand (int n);
@@ -64,7 +64,7 @@ int computer_vs_computer_stat();
 
 int eval_minimax(int grille[N][N], int joueur);
 
-int strategie_minimax(int grille[N][N], int *ligne, int *colonne, int profondeur, int joueur, int maximizing_player);
+int strategie_minimax(int grille[N][N], int *ligne, int *colonne, int profondeur,int depth, int joueur, int maximizing_player);
 
 
 #endif // OTHELLO_H

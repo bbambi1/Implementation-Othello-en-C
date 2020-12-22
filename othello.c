@@ -611,7 +611,7 @@ void computer_vs_computer(){
             }
         }
         else {
-            strategie_minimax(grille, &ligne, &colonne, depth, joueur, 1);
+            strategie_minimax(grille, &ligne, &colonne, 3,3, joueur, 1);
             jouer(grille, ligne, colonne, joueur);
             affiche_grille(grille);
             score(grille);
@@ -630,7 +630,7 @@ void computer_vs_computer(){
 // Permet d'etudier le nombre de victoires d'un joueur selon sa strategie
 
 int computer_vs_computer_stat(){
-    int joueur = 2;
+    int joueur = 1;
     int ligne, colonne;
 
     // Initialisation de la grille
@@ -640,7 +640,7 @@ int computer_vs_computer_stat(){
     // Partie machine vs machine
     while(!partie_finie(grille)){
         if (joueur == 1){
-            strategie_minimax1(grille, &ligne, &colonne, joueur);
+            strategie_minimax(grille, &ligne, &colonne, 4,4, joueur, 1);
             jouer(grille, ligne, colonne, joueur);
             if (peut_jouer(grille, joueur_suivant(joueur))){
                 joueur = joueur_suivant(joueur);
@@ -648,7 +648,7 @@ int computer_vs_computer_stat(){
             }
         }
         else {
-            strategie_minimax(grille, &ligne, &colonne, depth, joueur, 1);
+            strategie_minimax(grille, &ligne, &colonne, 5,5, joueur, 1);
             jouer(grille, ligne, colonne, joueur);
             if (peut_jouer(grille, joueur_suivant(joueur))){
                 joueur = joueur_suivant(joueur);
@@ -685,7 +685,7 @@ int eval_minimax(int grille[N][N], int joueur){
 
 // Algorithme Min-Max
 
-int strategie_minimax(int grille[N][N], int *ligne, int *colonne, int profondeur, int joueur, int maximizing_player){
+int strategie_minimax(int grille[N][N], int *ligne, int *colonne, int profondeur,int depth, int joueur, int maximizing_player){
     if ((profondeur == 0) || !peut_jouer(grille, joueur)){
         return eval_minimax(grille, joueur_suivant(joueur));
     }
@@ -706,7 +706,7 @@ int strategie_minimax(int grille[N][N], int *ligne, int *colonne, int profondeur
                     jouer(copie_grille, i, j, joueur);
                     int next_player = joueur_suivant(joueur);
                     int value_bis = value;
-                    value = MAX(value, strategie_minimax(copie_grille, ligne, colonne, profondeur - 1, next_player, 0));
+                    value = MAX(value, strategie_minimax(copie_grille, ligne, colonne, profondeur - 1, depth, next_player, 0));
                     if ((value > value_bis) && (profondeur == depth)){
                         *ligne = i;
                         *colonne = j;
@@ -734,7 +734,7 @@ int strategie_minimax(int grille[N][N], int *ligne, int *colonne, int profondeur
                     jouer(copie_grille, i, j, joueur);
                     int next_player = joueur_suivant(joueur);
                     int value_bis = value;
-                    value = MIN(value, strategie_minimax(copie_grille, ligne, colonne, profondeur - 1, next_player, 1));
+                    value = MIN(value, strategie_minimax(copie_grille, ligne, colonne, profondeur - 1, depth, next_player, 1));
                     if ((value < value_bis) && (profondeur == depth)){
                         *ligne = i;
                         *colonne = j;
