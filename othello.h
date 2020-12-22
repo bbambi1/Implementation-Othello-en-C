@@ -3,6 +3,7 @@
 #define N 8
 #define noir 1
 #define blanc 2
+#define depth 2
 
 
 int my_rand (int n);
