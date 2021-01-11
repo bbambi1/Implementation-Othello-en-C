@@ -53,8 +53,6 @@ void partie_2_joueurs();
 
 void strategie_naive(int grille[N][N], int *ligne, int *colonne, int joueur);
 
-void strategie_minimax1(int grille[N][N], int *ligne, int *colonne, int joueur);
-
 int CheckWinner(int grille[N][N], int joueur, int maximizing_player);
 
 int strategie_minimax(int grille[N][N], int *ligne, int *colonne, int joueur, int maximizing_player, int depth);

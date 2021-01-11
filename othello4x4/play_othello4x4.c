@@ -194,30 +194,6 @@ void strategie_naive(int grille[N][N], int *ligne, int *colonne, int joueur){
 }
 
 
-//Strategie "min-max" de profondeur 1 pour notre joueur "computer"
-
-void strategie_minimax1(int grille[N][N], int *ligne, int *colonne, int joueur){
-    int l[] = {500, -150, 30, 10, 10, 30, -150, 500,-150, -250, 0, 0, 0, 0, -250, -150,30, 0, 1, 2, 2, 1, 0, 30,10, 0, 2, 16, 16, 2, 0, 10,10, 0, 2, 16, 16, 2, 0, 10,30, 0, 1, 2, 2, 1, 0, 30,-150, -250, 0, 0, 0, 0, -250, -150,500, -150, 30, 10, 10, 30, -150, 500};
-
-    int matrice_heuristique[N][N] ;
-    for(int i = 0; i < N; i++){
-        for(int j = 0; j < N; j++){
-        matrice_heuristique[i][j] = l[i+N*j];
-    }
-    }
-    int score_meilleur_coup = -500;
-    for(int i = 0; i < N; i++){
-        for(int j=0;j<N;j++){
-            if ((coup_valide(grille, i, j, joueur)) && (matrice_heuristique[i][j] > score_meilleur_coup)){
-                score_meilleur_coup = matrice_heuristique[i][j];
-                *ligne = i;
-                *colonne = j;
-            }
-        }
-    }
-}
-
-
 // utile pour effectuer des stats sur le nombre de victoires
 
 int CheckWinner(int grille[N][N], int joueur, int maximizing_player){
@@ -245,7 +221,6 @@ int CheckWinner(int grille[N][N], int joueur, int maximizing_player){
         }
     }
 }
-
 
 
 // Algorithme Min-Max
