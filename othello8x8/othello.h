@@ -5,7 +5,7 @@
 #define blanc 2
 
 
-// rules_othello.c
+// rules_othello8x8.c
 
 int my_rand (int n);
 
@@ -45,7 +45,7 @@ void gagnant(int grille[N][N]);
 
 void score(int grille[N][N]);
 
-// play_othello.c
+// play_othello8x8.c
 
 void jouer(int grille[N][N],int ligne,int colonne,int joueur);
 
