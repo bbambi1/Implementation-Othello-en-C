@@ -21,7 +21,7 @@ En pratique, la grille sera implémentée comme un tableau à deux dimensions ``
 - ```peut_jouer``` : elle vérifie, pour un joueur donné, s'il peut encore jouer un coup sur la grille. En d'autres termes cette fonction vérifie qu'il reste ou non des coups valides pour un joueur.
 - ```partie_finie``` : elle vérifie si une partie est terminée (aucun des joueurs ne peut plus jouer). La fonction ```gagnant``` calcule ensuite le score final de chacun des joueurs (le nombre de pions de chacun sur la grille).
 - ```jouer``` : elle permet de jouer un coup (placer un pion sur la grille et retourner les pions adverses encadrés) en respectant les règles du jeu.
-- ```strategie_naive``` : il s'agit de la première stratégie de jeu de notre IA. La stratégie consiste simplement à tester tous les coups possibles et à jouer le $1^{er}$ coup valide rencontré.
+- ```strategie_naive``` : il s'agit de la première stratégie de jeu de notre IA. La stratégie consiste simplement à tester tous les coups possibles et à jouer le 1<sup>er</sup> coup valide rencontré.
 - ```strategie_minimax``` : c'est la stratégie la plus aboutie de notre IA pour l'instant. Elle utilise l'algorithme minmax (décrit ici https://cutt.ly/9h1BkoJ) qui se résume au pseudocode suivant (copié depuis Wikipedia) :
   
 ```
