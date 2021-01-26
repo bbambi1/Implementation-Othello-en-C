@@ -57,6 +57,8 @@ int CheckWinner(int grille[N][N], int joueur, int maximizing_player);
 
 int strategie_minimax(int grille[N][N], int *ligne, int *colonne, int joueur, int maximizing_player, int depth);
 
+int alpha_beta(int grille[N][N], int *ligne, int *colonne, int joueur, int alpha, int beta, int depth, int maximizing_player);
+
 void partie_vs_computer();
 
 void computer_vs_computer();

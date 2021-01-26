@@ -6,7 +6,6 @@
 #define MAX(a,b) (((a)>(b))?(a):(b))
 
 
-
 // Fonction "random" (genere des nombres aleatoires entre 0 et n-1)
 
 int my_rand(int n)

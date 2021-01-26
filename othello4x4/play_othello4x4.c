@@ -288,6 +288,79 @@ int strategie_minimax(int grille[N][N], int *ligne, int *colonne, int joueur, in
 }
 
 
+// Elagage alpha - beta 
+
+int alpha_beta(int grille[N][N], int *ligne, int *colonne, int joueur, int alpha, int beta, int depth, int maximizing_player){
+    int value;
+    if (partie_finie(grille)){
+        return CheckWinner(grille, joueur, maximizing_player);
+    }
+    if (maximizing_player){
+        value = -100000000;
+        for(int i = 0; i < N; i++){
+            for(int j = 0; j < N; j++){
+                if (coup_valide(grille, i, j, joueur)){
+
+                    // on copie notre grille
+                    int copie_grille[N][N];
+                    for(int i = 0; i < N; i++){
+                        for(int j = 0; j < N; j++){
+                            copie_grille[i][j] = grille[i][j];
+                        }
+                    }
+
+                    jouer(copie_grille, i, j, joueur);
+                    int next_player = joueur_suivant(joueur);
+                    int value_bis = value;
+                    value = MAX(value, alpha_beta(copie_grille, ligne, colonne, next_player, alpha, beta, depth + 1, 0));
+                    if ((value > value_bis) && depth == 0){
+                        *ligne = i;
+                        *colonne = j;
+                    }
+                    value_bis = value;
+                    if (value >= beta){
+                        return value;
+                    }
+                    alpha = MAX(alpha, value);
+                }
+            }
+        }
+    }
+    else{
+        value = 100000000;
+        for(int i = 0; i < N; i++){
+            for(int j = 0; j < N; j++){
+                if (coup_valide(grille, i, j, joueur)){
+
+                    // on copie notre grille
+                    int copie_grille[N][N];
+                    for(int i = 0; i < N; i++){
+                        for(int j = 0; j < N; j++){
+                            copie_grille[i][j] = grille[i][j];
+                        }
+                    }
+
+                    jouer(copie_grille, i, j, joueur);
+                    int next_player = joueur_suivant(joueur);
+                    int value_bis = value;
+                    value = MIN(value, alpha_beta(copie_grille, ligne, colonne, next_player, alpha, beta, depth + 1, 1));
+                    if ((value < value_bis) && depth == 0){
+                        *ligne = i;
+                        *colonne = j;
+                    }
+                    value_bis = value;
+                    if (alpha >= value){
+                        return value;
+                    }
+                    beta = MIN(beta, value);
+                }
+            }
+        }
+    }
+    return value;
+}
+
+
 //Simule une partie entre un joueur et l'ordinateur
 
 void partie_vs_computer(){
@@ -296,10 +369,22 @@ void partie_vs_computer(){
 
     printf("\nVous êtes le joueur 1 !");
 
-    // Choix de la strategie du joueur "computer"
-    int strategie;
-    printf("\nQuelle strategie souhaitez-vous utiliser pour le joueur ordinateur ?\n1 = naif\n2 = minimax\n");
-    scanf("\n%d", &strategie);
+    // Choix de la strategie des joueurs "computer"
+    int strategie = 0;
+    while ((strategie != 1) && (strategie != 2) && (strategie != 3)){
+        printf("\nQuelle strategie souhaitez-vous utiliser pour le joueur ordinateur 1 ?\n1 = naif\n2 = minimax\n3 = alpha-beta\n");
+        scanf("\n%d", &strategie);
+        switch(strategie){
+            case 1 :
+                break;
+            case 2 :
+                break;
+            case 3 :
+                break;
+            default :
+            printf("\nStrategie non reconnue\n");
+        }
+    }
 
     // Initialisation de la grille
     int grille[N][N];
@@ -326,8 +411,11 @@ void partie_vs_computer(){
             if (strategie == 1){
                 strategie_naive(grille, &ligne, &colonne, joueur);
             }
-            else{
+            else if (strategie == 2){
                 strategie_minimax(grille, &ligne, &colonne, joueur, 1, 0);
+            }
+            else{
+                alpha_beta(grille, &ligne, &colonne, joueur, -1000000000, 1000000000, 0, 1);
             }
             jouer(grille, ligne, colonne, joueur);
             affiche_grille(grille);
@@ -354,26 +442,30 @@ void computer_vs_computer(){
     int strategie1 = 0;
     int strategie2 = 0;
     // Stratégie du joueur 1
-    while ((strategie1 != 1) && (strategie1 != 2)){
-        printf("\nQuelle strategie souhaitez-vous utiliser pour le joueur ordinateur 1 ?\n1 = naif\n2 = minimax\n");
+    while ((strategie1 != 1) && (strategie1 != 2) && (strategie1 != 3)){
+        printf("\nQuelle strategie souhaitez-vous utiliser pour le joueur ordinateur 1 ?\n1 = naif\n2 = minimax\n3 = alpha-beta\n");
         scanf("\n%d", &strategie1);
         switch(strategie1){
             case 1 :
                 break;
             case 2 :
                 break;
+            case 3 :
+                break;
             default :
             printf("\nStrategie non reconnue\n");
         }
     }
     // Stratégie du joueur 2
-    while ((strategie2 != 1) && (strategie2 != 2)){
-        printf("\nQuelle strategie souhaitez-vous utiliser pour le joueur ordinateur 2 ?\n1 = naif\n2 = minimax\n");
+    while ((strategie2 != 1) && (strategie2 != 2) && (strategie2 != 3)){
+        printf("\nQuelle strategie souhaitez-vous utiliser pour le joueur ordinateur 2 ?\n1 = naif\n2 = minimax\n3 = alpha-beta\n");
         scanf("\n%d", &strategie2);
         switch(strategie2){
             case 1 :
                 break;
             case 2 :
+                break;
+            case 3 :
                 break;
             default :
             printf("\nStrategie non reconnue\n");
@@ -393,8 +485,11 @@ void computer_vs_computer(){
             if (strategie1 == 1){
                 strategie_naive(grille, &ligne, &colonne, joueur);
             }
-            else{
+            else if (strategie1 == 2){
                 strategie_minimax(grille, &ligne, &colonne, joueur, 1, 0);
+            }
+            else{
+                alpha_beta(grille, &ligne, &colonne, joueur, -1000000000, 1000000000, 0, 1);
             }
             jouer(grille, ligne, colonne, joueur);
             affiche_grille(grille);
@@ -410,8 +505,11 @@ void computer_vs_computer(){
             if (strategie2 == 1){
                 strategie_naive(grille, &ligne, &colonne, joueur);
             }
-            else{
+            else if (strategie2 == 2){
                 strategie_minimax(grille, &ligne, &colonne, joueur, 1, 0);
+            }
+            else{
+                alpha_beta(grille, &ligne, &colonne, joueur, -1000000000, 1000000000, 0, 1);
             }
             jouer(grille, ligne, colonne, joueur);
             affiche_grille(grille);
@@ -437,20 +535,24 @@ int computer_vs_computer_stat(){
     // Initialisation de la grille
     int grille[N][N];
     initialisation_grille(grille);
+    affiche_grille(grille);
 
     // Partie machine vs machine
     while(!partie_finie(grille)){
         if (joueur == 1){
-            strategie_minimax(grille, &ligne, &colonne, joueur, 1, 0);
+            
+            alpha_beta(grille, &ligne, &colonne, joueur, -1000000000, 1000000000, 0, 1);
             jouer(grille, ligne, colonne, joueur);
+            affiche_grille(grille);
             if (peut_jouer(grille, joueur_suivant(joueur))){
                 joueur = joueur_suivant(joueur);
                 //score(grille);
             }
         }
         else {
-            strategie_minimax(grille, &ligne, &colonne, joueur, 1, 0);
+            strategie_naive(grille, &ligne, &colonne, joueur);
             jouer(grille, ligne, colonne, joueur);
+            affiche_grille(grille);
             if (peut_jouer(grille, joueur_suivant(joueur))){
                 joueur = joueur_suivant(joueur);
                 //score(grille);

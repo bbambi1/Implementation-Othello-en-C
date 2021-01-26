@@ -26,11 +26,6 @@ int main()
             break;
         }
     }
-    //joueur_vs_joueur();
-
-    //joueur_vs_computer();
-
-    //computer_vs_computer();
-
+    //printf("\n%d ", computer_vs_computer_stat());
     return 0;
 }
