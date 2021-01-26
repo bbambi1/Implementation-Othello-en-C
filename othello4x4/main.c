@@ -26,6 +26,6 @@ int main()
             break;
         }
     }
-    //printf("\n%d ", computer_vs_computer_stat());
+    
     return 0;
 }

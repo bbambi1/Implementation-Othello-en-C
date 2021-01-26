@@ -5,6 +5,8 @@
 #define blanc 2
 
 
+// rules_othello4x4.c
+
 int my_rand (int n);
 
 void initialisation_grille(int grille[N][N]);
@@ -45,6 +47,8 @@ int gagnant_stat(int grille[N][N]);
 
 void score(int grille[N][N]);
 
+// play_othello4x4.c
+
 void jouer(int grille[N][N],int ligne,int colonne,int joueur);
 
 void entrer_coup(int grille[N][N], int *ligne, int *colonne, int joueur);
@@ -62,8 +66,6 @@ int alpha_beta(int grille[N][N], int *ligne, int *colonne, int joueur, int alpha
 void partie_vs_computer();
 
 void computer_vs_computer();
-
-int computer_vs_computer_stat();
 
 
 #endif // OTHELLO_H
