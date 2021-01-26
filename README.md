@@ -39,6 +39,7 @@ function minimax(node, depth, maximizingPlayer) is
             value := min(value, minimax(child, depth − 1, TRUE))
         return value
 ```
+
 L'algorithme minmax appliqué à Othello nécessite une heuristique afin d'évaluer les "noeuds de l'arbre des coups". C'est la fonction ```eval_minimax``` qui joue ce rôle. Elle associe à chaque case de la grille un score. Ce score est choisi selon les différentes stratégies connues du jeu d'Othello qui maximisent les chances de victoire d'un joueur. 
 
 Voici la matrice (que nous utilisons) qui attribue un poids à chaque case : 
@@ -59,6 +60,31 @@ Voici la matrice (que nous utilisons) qui attribue un poids à chaque case :
 </center>
 
 
+- ```alpha_beta```: permet de faire un élagage alpha-bêta selon l'algorithme suivant :
+
+```
+fonction alphabeta(nœud, α, β) /* α est toujours inférieur à β */
+   si nœud est une feuille alors
+       retourner la valeur de nœud
+   sinon si nœud est de type Min alors
+           v = +∞
+           pour tout fils de nœud faire
+               v = min(v, alphabeta(fils, α, β))                
+               si α ≥ v alors  /* coupure alpha */
+                   retourner v
+               β = Min(β, v)           
+    sinon
+           v = -∞
+           pour tout fils de nœud faire
+               v = max(v, alphabeta(fils, α, β))                
+               si v ≥ β alors /* coupure beta */
+                   retourner v
+               α = Max(α, v)
+    retourner v
+```
+L'élagage alpha-beta permet d'optimiser grandement l'algorithme min-max qu'on a déjà implémenté (sans en modifier le résultat). 
+Pour cela, il ne réalise qu'une exploration partielle de l'arbre des possibilités.En effet, l'élagage alpha-beta n'évalue pas des nœuds dont on peut penser, si la fonction d'évaluation est à peu près correcte, que leur qualité sera inférieure à un nœud déjà évalué.
+
 - ```partie_2_joueurs``` : simule une partie entre deux joueurs non machine.
 - ```partie_vs_computer``` : simule une partie entre un joueur non machine et une IA.
 - ```computer_vs_computer``` : simule une partie entre deux IA.
@@ -66,7 +92,8 @@ Voici la matrice (que nous utilisons) qui attribue un poids à chaque case :
 
 ## Usage :
 
-Il faut compiler puis exécuter le programme en suivant les instructions qui apparaissent sur le terminal, notamment pour choisir la partie que l'on veut lancer et ses paramètres (comme la profondeur pour l'IA).
+Nous avons implémenté deux versions d'othello (chacune ayant ses propres fichiers sources) : la première sur une grille 4x4 (pour se débarrasser de la contrainte de l'heuristique et explorer entièrement l'arbre des possibilités) et une autre sur une grille 8x8.
+<br>Pour tester les fonctions sus-décrites il suffit de compiler les fichiers sources (par exemple en utilisant gcc).</br>
 
 
 ## Difficultés rencontrées :
@@ -77,5 +104,6 @@ Il faut compiler puis exécuter le programme en suivant les instructions qui app
 - Après nos premiers tests, nous avons observé des résultats assez contre-intuitifs : une IA qui utilise la stratégie minmax avec une profondeur 3 gagne contre une IA qui utilise la stratégie minmax avec une profondeur 4 ; une IA qui joue de façon naïve gagne parfois contre une autre qui utilise la stratégie minmax.
 Ces résultats nous ont conduits à douter de la validité de notre implémentaion et de l'heuristique que nous avions choisie.
 <br>Pour vérifier que le corps de notre algorithme était correct, M. Zanni nous a suggérés d'effectuer des tests qui ne dépendent pas de notre heuristique : notamment explorer l'arbre des choix jusqu'aux feuilles (fin du jeu).</br> Sur une grille de taille 8x8, parcourir entièrement l'arbre des choix est extrêmement coûteux. Nous avons donc effectué notre test sur une grille de plus petite dimension (4x4). On observe que dans cette configurtion, que la stratégie minmax (de profondeur "infinie") l'emporte systématiquement contre une IA naïve.
-<br>A SUIVRE...</br>
-- 
+
+- Après avoir vérifié que notre algorithme mini-max était bien implémenté, on a constaté que son exécution était très lente pour de grandes profondeurs (à partir de 5 sur une grille 8x8). De la même façon, sur une grille 4x4, lorsque notre IA (avec une stratégie min-max) commence la partie, elle met énormément de temps pour jouer son premier coup (l'ensemble des coups possibles à explorer est trop grand en début de partie).
+C'est pour ces raisons, entre autres, que nous avons décidé d'implémenter un élagage alpha-bêta. Grâce à cette amélioration, on a gagné significativement en temps de calcul.  
