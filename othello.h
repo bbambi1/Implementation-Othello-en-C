@@ -28,6 +28,7 @@ void makeMove(int board[N][N], int row, int col, int player);
 
 void getRandomMove(int board[N][N], int player, int *row, int *col);
 void getGreedyMove(int board[N][N], int player, int *row, int *col);
+void getAlphaBetaMove(int board[N][N], int player, int *row, int *col);
 
 // New typedef for strategy function
 typedef void (*StrategyFunc)(int board[N][N], int player, int *row, int *col);

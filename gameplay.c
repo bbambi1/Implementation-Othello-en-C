@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include "othello.h"
+#include <stdlib.h>
 
 void printBoard(int board[N][N]) 
 {
@@ -31,7 +32,7 @@ void getAIMove(int board[N][N], int player, int *row, int *col, StrategyFunc str
 int selectStrategy() 
 {
     int choice;
-    printf("Select AI Strategy:\n1. Random\n2. Greedy\nChoice: ");
+    printf("Select AI Strategy:\n1. Random\n2. Greedy\n3. Alpha-Beta\nChoice: ");
     scanf("%d", &choice);
     return choice;
 }
@@ -57,11 +58,23 @@ void gameLoop(int mode, int ai1StrategyChoice, int ai2StrategyChoice)
             // AI's move
             StrategyFunc strategy = NULL;
 
-            if (currentPlayer == BLACK)
-                strategy = (ai1StrategyChoice == 1) ? getRandomMove : getGreedyMove;
-            else
-                strategy = (ai2StrategyChoice == 1) ? getRandomMove : getGreedyMove;
+            int strategyChoice = (currentPlayer == BLACK) ? ai1StrategyChoice : ai2StrategyChoice;
 
+            switch(strategyChoice)
+            {
+                case 1:
+                    strategy = getRandomMove;
+                    break;
+                case 2:
+                    strategy = getGreedyMove;
+                    break;
+                case 3:
+                    strategy = getAlphaBetaMove; // Assuming you named it this way
+                    break;
+                default:
+                    printf("Invalid AI strategy choice!\n");
+                    exit(1); // or handle this more gracefully if you prefer
+            }
             getAIMove(board, currentPlayer, &row, &col, strategy);
         }
 
