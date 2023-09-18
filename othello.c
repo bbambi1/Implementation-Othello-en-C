@@ -3,6 +3,8 @@
 #include <stdlib.h>
 #include <time.h>
 #include "othello.h"
+#include <string.h>
+#include <limits.h>
 
 #define BLACK 1
 #define WHITE 2
