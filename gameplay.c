@@ -46,6 +46,14 @@ void gameLoop(int mode, int ai1StrategyChoice, int ai2StrategyChoice)
     while (!isGameOver(board))
     {
         printBoard(board);
+
+        if (!canPlayerMove(board, currentPlayer)) 
+        {
+            printf("Player %s cannot make a move. Skipping turn.\n", (currentPlayer == BLACK) ? "BLACK" : "WHITE");
+            currentPlayer = nextPlayer(currentPlayer);
+            continue; // skip the rest of the loop and proceed to the next iteration
+        }
+
         int row, col;
 
         if ((mode == PLAYER_VS_PLAYER) || 
