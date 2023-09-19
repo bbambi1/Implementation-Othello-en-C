@@ -77,11 +77,11 @@ void gameLoop(int mode, int ai1StrategyChoice, int ai2StrategyChoice)
                     strategy = getGreedyMove;
                     break;
                 case 3:
-                    strategy = getAlphaBetaMove; // Assuming you named it this way
+                    strategy = getAlphaBetaMove;
                     break;
                 default:
                     printf("Invalid AI strategy choice!\n");
-                    exit(1); // or handle this more gracefully if you prefer
+                    exit(1);
             }
             getAIMove(board, currentPlayer, &row, &col, strategy);
         }
